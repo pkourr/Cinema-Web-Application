@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Movies | Cinema Paradiso</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="apple-touch-icon" sizes="180x180" href="../static/assets/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../static/assets/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../static/assets/favicon-16x16.png">
+    <link rel="manifest" href="../static/assets/site.webmanifest">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+  <style>
+
+    body  {
+      background-image: url("https://wallpapercave.com/wp/wp10021077.jpg");
+      background-repeat: no-repeat;
+      background-size: 100% 100%;
+    }
+    html {
+        height: 100%
+    }
+    .col{
+      margin-left: auto;
+      margin-right: auto;
+    }
+    img{
+      height: 500px;
+      width: auto;
+    }
+    #text{
+      color: white;
+    }
+
+  </style>
+</head>
+<body>
+  {% block content %}
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+      <div class="container-fluid">
+          <a class="navbar-brand" href="index.html">Paradiso</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="collapsibleNavbar">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('home') }}">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('movies') }}">Movies</a>
+            </li>
+            {% if 'logged_in' in session %}
+            <li hidden class="nav-item">
+                <a class="nav-link" href="{{ url_for('login') }}">Login</a>
+            </li>
+            {% else %}
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('login') }}">Login</a>
+            </li>
+            {% endif %}
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('admin') }}">Admin</a>
+            </li>  
+            {% if 'logged_in' in session %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+                </li> 
+            {% endif %}
+        </ul>
+        </div>
+      </div>
+    </nav>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for msg in messages %}
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                {{msg}}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <div class="container-fluid mt-3">
+      <h3 id='text'>Movies</h3>
+      <p id='text'>Select a movie you would like to watch.</p>
+      <div class="row">
+        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-xs-12 grid-margin stretch-card">    
+          <form method="POST">  
+          <div class="card">
+            <img src="https://w0.peakpx.com/wallpaper/783/184/HD-wallpaper-die-hard-1988-die-hard-willis-hard-film-die-bruce-bruce-willis-movies.jpg" class="card-img-top" alt="Die Hard">
+            <div class="card-body">
+              <h5 class="card-title">Die Hard</h5>
+              <p class="card-text">Get ready for a heart-pumping, non-stop thrill ride as John McClane takes on a gang of terrorists in a high-stakes game of survival in "Die Hard".</p>
+              <input type="hidden" name="title" value="Die Hard">
+              <button type="submit" class="btn btn-primary text-center">Continue</button>
+            </div>
+          </div>
+          </form>   
+        </div>
+        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-xs-12 grid-margin stretch-card">
+          <form method="POST"> 
+          <div class="card">
+            <img src="https://i.pinimg.com/originals/91/4b/98/914b989ed516f38b74db0981cf4b9b29.jpg" class="card-img-top" alt="Die Hard">
+            <div class="card-body">
+              <h5 class="card-title">Gladiator</h5>
+              <p class="card-text">Experience the epic tale of a general-turned-slave who rises to become a gladiator and seeks revenge against the corrupt emperor in "Gladiator".</p>
+              <input type="hidden" name="title" value="Gladiator">
+              <button type="submit" class="btn btn-primary text-center">Continue</button>
+            </div>
+          </div>
+          </form> 
+        </div>
+        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-xs-12 grid-margin stretch-card">
+          <form method="POST"> 
+          <div class="card">
+            <img src="https://www.filmonpaper.com/wp-content/uploads/2011/05/Braveheart_quad_UK-1.jpg" class="card-img-top" alt="Die Hard">
+            <div class="card-body">
+              <h5 class="card-title">Braveheart</h5>
+              <p class="card-text">Join William Wallace on his journey of bravery, honor and freedom as he leads the Scots in their fight against English oppression in the powerful film "Braveheart".</p>
+              <input type="hidden" name="title" value="Braveheart">
+              <button type="submit" class="btn btn-primary btn-block">Continue</button>
+            </div>
+          </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+</body>
+<script>
+
+</script>
+{% endblock %}
+</html>
+
+

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>
+        Admin page - Edit Customer
+    </title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--style css-->
+    <link href="/css/admin.css" rel="stylesheet" type="text/css">
+    <!--Fontawesome-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="apple-touch-icon" sizes="180x180" href="../static/assets/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../static/assets/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../static/assets/favicon-16x16.png">
+    <link rel="manifest" href="../static/assets/site.webmanifest">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <style>
+
+    option:disabled {
+    color: white;
+    background-color: rgb(222, 105, 85);
+    }
+
+    </style>
+</head>
+{% block content %}
+<body>
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html">Paradiso</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="collapsibleNavbar">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('home') }}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('movies') }}">Movies</a>
+                </li>
+                {% if 'logged_in' in session %}
+                <li hidden class="nav-item">
+                    <a class="nav-link" href="{{ url_for('login') }}">Login</a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('login') }}">Login</a>
+                </li>
+                {% endif %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('admin') }}">Admin</a>
+                </li>  
+                {% if 'logged_in' in session %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+                    </li> 
+                {% endif %}
+            </ul>
+            </div>
+        </div>
+    </nav>
+        <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ url_for('admin') }}">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Edit reservation</li>
+            </ol>
+        </nav>
+
+        <div class="container mt-4">
+            <h2>
+                Edit Reservation<i class="fas fa-user-edit"></i>
+            </h2>
+            <br>
+            <div class="card">
+                <div class="card-header">
+                    Edit the desired info below
+                </div>
+                <div class="card-body">
+                    <form method="POST">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="name">Username</label>
+                                    <input disabled type="text" class="form-control" id="floatingInput" placeholder={{lista[0]['username']}} value={{lista[0]['username']}} name="name" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="name">Rservation Id</label>
+                                    <input disabled type="text" class="form-control" id="floatingInput" placeholder={{lista[0]['_id']}} value={{lista[0]['_id']}} name="name" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="sex">Ticket Type</label>
+                                    <select id="Hall" class="form-control" name="new_price">
+                                        {% if lista[0]['hall'] == "Normal" %}
+                                            <option selected value="Normal" {% if new_price == 'option1' %}selected{% endif %}>Normal</option>
+                                            <option value="Premium" {% if new_price == 'option2' %}selected{% endif %}>Premium</option>
+                                        {% else %}
+                                            <option value="Normal" {% if new_price == 'option1' %}selected{% endif %}>Normal</option>
+                                            <option selected value="Premium" {% if new_price == 'option2' %}selected{% endif %}>Premium</option>
+                                        {% endif %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="sex">Hour</label>
+                                    <select id="Hour" class="form-control" name="new_hour">
+                                        {% if lista[0]['hour'] == "17:00" %}
+                                            <option selected value="17:00" {% if new_hour == 'option3' %}selected{% endif %}>17:00</option>
+                                            <option value="20:00" {% if new_hour == 'option4' %}selected{% endif %}>20:00</option>
+                                        {% else %}
+                                            <option value="17:00" {% if new_hour == 'option3' %}selected{% endif %}>17:00</option>
+                                            <option selected value="20:00" {% if new_hour == 'option4' %}selected{% endif %}>20:00</option>
+                                        {% endif %}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="name">Movie</label>
+                                    <input disabled type="text" class="form-control" id="floatingInput" placeholder="{{lista[0]['movie']}}" value="{{lista[0]['movie']}}" name="name" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="sex">Seat</label>
+                                    <select id="Hour" class="form-control" name="new_seat">
+                                        {% for item in final %}
+                                            {% if item in seats_list %}
+                                                {% if item ==  lista[0]['seat']%}
+                                                    <option selected value="{{ item }}" {% if new_seat == 'option5' %}selected{% endif %}>{{ item }}</option>
+                                                {% else %}
+                                                    <option disabled value="{{ item }}" {% if new_seat == 'option5' %}selected{% endif %}>{{ item }}</option>
+                                                {% endif %}
+                                            {% else %}
+                                                <option value="{{ item }}" {% if new_seat == 'option5' %}selected{% endif %}>{{ item }}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 d-grid">
+                                <button type="submit" class="btn btn-primary btn-block" id="submit-admin">Submit</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+</body>
+{% endblock %}
+</html>

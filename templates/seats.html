@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Seat Selector - Cinema Paradiso</title>
+  <meta charset="utf-8">
+  <meta id="seats" content="{{dis_seats}}">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="apple-touch-icon" sizes="180x180" href="../static/assets/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../static/assets/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../static/assets/favicon-16x16.png">
+    <link rel="manifest" href="../static/assets/site.webmanifest">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+  <style>
+    .seat {
+      height: 50px;
+      width: 50px;
+      background-color: red;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    input[type="radio"]:disabled {
+      background: red;
+    }
+
+    input[type="radio"]:enabled {
+      background: rgb(117, 187, 117);
+    }
+
+    .row{
+      margin-bottom: 20px;;
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="index.html">Paradiso</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
+      <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="collapsibleNavbar">
+      <ul class="navbar-nav">
+          <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('home') }}">Home</a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('movies') }}">Movies</a>
+          </li>
+          {% if 'logged_in' in session %}
+          <li hidden class="nav-item">
+              <a class="nav-link" href="{{ url_for('login') }}">Login</a>
+          </li>
+          {% else %}
+          <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('login') }}">Login</a>
+          </li>
+          {% endif %}
+          <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('admin') }}">Admin</a>
+          </li>  
+          {% if 'logged_in' in session %}
+              <li class="nav-item">
+                  <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+              </li> 
+          {% endif %}
+      </ul>
+      </div>
+    </div>
+  </nav>
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for msg in messages %}
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                {{msg}}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <div id="all" hidden>
+    {% for i in dis_seats %}   
+      <div id="hidden">{{ i }}</div>
+    {% endfor %}
+    </div>
+
+    <div class="container-fluid">
+      <form method="POST">
+        <div class="row">
+          <legend>Select your desired seat</legend>
+        </div>
+
+        {% for lista in final2 %}
+          <div class="row">
+            {% for item in lista %}
+            <div class="col">
+              <div class="form-check">
+                <input class="form-check-input" type="radio" id="opt" name="selected_seat" value="{{ item }}" {% if radio_value == '{{item}}' %} checked {% endif %} >
+                <label class="form-check-label">
+                  {{item}}
+                </label>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        {% endfor %}
+        
+        <div class="d-grid gap-2">
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+
+        </div>
+      </form>
+    </div>
+</body>
+
+    
+  <script>
+    var a = document.getElementById("all");
+    var len = a.childElementCount;
+    console.log(len)
+    var lista = [];
+    for(i = 0; i < len; i++){
+      console.log(a.children[i].innerHTML);
+      lista.push(a.children[i].innerHTML)
+    }
+    console.log(lista)
+
+    var b = document.querySelectorAll('#opt');
+    console.log(b)
+    b.forEach(element => {
+      for(var i = 0; i < lista.length; i++){
+        if(element.value == lista[i]){
+          element.setAttribute('disabled', '');
+        }
+      }
+    });
+  </script>
+</html>
+
+

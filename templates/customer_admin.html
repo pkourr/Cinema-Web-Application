@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>
+        Admin page - Customers List
+    </title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--style css-->
+    <link href="/css/style.css" rel="stylesheet" type="text/css">
+    <link href="/css/admin.css" rel="stylesheet" type="text/css">
+    <link rel="apple-touch-icon" sizes="180x180" href="../static/assets/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../static/assets/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../static/assets/favicon-16x16.png">
+    <link rel="manifest" href="../static/assets/site.webmanifest">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <!--Navbar hover js-->
+    <script src="/js/navbar.js"></script>
+</head>
+
+<body>
+    {% block content %}
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html">Paradiso</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="collapsibleNavbar">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('home') }}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('movies') }}">Movies</a>
+                </li>
+                {% if 'logged_in' in session %}
+                <li hidden class="nav-item">
+                    <a class="nav-link" href="{{ url_for('login') }}">Login</a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('login') }}">Login</a>
+                </li>
+                {% endif %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('admin') }}">Admin</a>
+                </li>  
+                {% if 'logged_in' in session %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+                    </li> 
+                {% endif %}
+            </ul>
+            </div>
+        </div>
+    </nav>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for msg in messages %}
+                {% if category == "success" %}
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">{{msg}}</div>
+                {% else %}
+                    <div class="alert alert-info alert-dismissible fade show" role="alert">{{msg}}</div>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+  <div class="container">
+      <div class="row">
+          <div class="col-md-6">
+              <h1>
+                  Admin page
+              </h1>
+              <p>Below you can see all the registered users. You can either "View their Reservations" or "Delete them from the database"</p>
+          </div>
+          <div class="col-md-6 justify-content-end">
+          </div>
+          
+      </div>
+      <br>
+      <table class="table table-dark table-striped">
+          <thead>
+              <tr>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Username</th>
+                  <th>Action</th>
+              </tr>
+          </thead>
+          <tbody>
+            {% for item in lista2 %}
+                  <tr>
+                      <td>
+                        {{ item[0] }}
+                      </td>
+                      <td>
+                        {{ item[1] }}
+                      </td>
+                      <td>
+                        {{ item[2] }}
+                      </td>
+                      <td>
+                          <a href="{{ url_for('viewer', username = item[0]) }}" type="button" class="btn btn-light btn-small"><i class="bi bi-eye"></i> View Rentals</a>
+                          <a href="{{ url_for('delete', username = item[0]) }}" type="button" class="btn btn-light btn-small"><i class="bi bi-person-x"></i> Delete</a>
+                      </td>
+                  </tr>
+            {% endfor %}
+          </tbody>
+      </table>
+  </div>
+</body>
+{% endblock %}
+</html>
